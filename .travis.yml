@@ -25,6 +25,6 @@ deploy:
   bucket_path: "docker-react"
   # when code is pushed to master, that's the time to deploy to beanstalk
   on:
-    branch: master
+    branch: main
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
