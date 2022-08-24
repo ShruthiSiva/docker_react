@@ -5,4 +5,5 @@ services:
       context: .
       dockerfile: Dockerfile
     # nginx exposes the 80 port on its end (from where it serves the static build files). SO we wouldlike to map that to 80 on our end.
-    ports: '80:80'
+    ports: 
+      - '80:80'
