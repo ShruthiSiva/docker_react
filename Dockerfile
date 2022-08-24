@@ -8,5 +8,9 @@ CMD npm run build
 
 # start the run phase which copies the build folder to the nginx container and uses this server to serve the statically generated content in build. No syntax is needed to speicify that the intial phase is stopping. A block can only have a single FROm statement, so it is obvious that the new FROM means the end of the previous block and start of a new one.
 FROM nginx
+
+#this does nothing for us. Its only purpose is to tell AWS that the 80 port has been exposed from nginx's side and that is what we should be listening to.
+EXPOSE 80
+
 # want to copy something from the builder phase. First argument is the thing we want to copy. Second is where we want to copy it to in the nginx container. This folder location was pulled from nginx's documentation.
 COPY --from=builder /app/build /usr/share/nginx/html
