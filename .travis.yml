@@ -12,3 +12,19 @@ before_install:
 #series of commans to run for tests to be executed
 script:
   - docker run -e CI=true shruthisiva95/docker-react npm run test
+
+# actual deploy to production
+deploy: 
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "Dockerreact-env"
+  # once travis CI handles the CI, it needs somewhere to put the zip file into for elasticbeanstalk to then be able to retrieve it. It uses an S3 bucket for this. 
+  bucket_name: "elasticbeanstalk-us-east-1-296208148105"
+  # all elasticbeanstalk resources are pushed into that same bucket. Intially there is no path since the application hasn't been deployed. it uses the same name as the app, though.
+  bucket_path: "docker-react"
+  # when code is pushed to master, that's the time to deploy to beanstalk
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
