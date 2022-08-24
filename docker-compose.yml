@@ -1,21 +1,6 @@
 version: '3'
 services:
   frontend:
-    build: 
-      # specifying build-context and dockerfile manually
-      context: .
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    # volumes are used to temporarily map/overrwrite (for as long as the container is running) files in a specific folder with files we have locallty. This enables hot-reloading, since local changes are the ones that docker currently looks at. <local_folder>:<container_folder> is the format used to achieve volume mapping. We do not want node_modules to be mapped, so we ask docker to use that folder from within its own container.
-    volumes:
-      - /app/node_modules
-      - .:/app
-  tests:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - .:/app
-    command: ["npm", "run", "test"]
+    build: .
+    # nginx exposes the 80 port on its end (from where it serves the static build files). SO we wouldlike to map that to 80 on our end.
+    ports: '80:80'
