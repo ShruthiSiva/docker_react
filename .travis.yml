@@ -1,0 +1,14 @@
+# always include this to tell Travis you need super user level permissions for the build 
+sudo: required
+# tell travis what services it needs to install
+services:
+  - docker
+
+# series of steps to run before deploying project/runing tests 
+# Tag the image so we can re-use it without needing to use the image ID that's printed after build.
+before_install:
+  - docker build -t shruthisiva95/docker-react -f Dockerfile.dev . 
+
+#series of commans to run for tests to be executed
+script:
+  - docker run -e CI=true shruthisiva95/docker-react npm run test
