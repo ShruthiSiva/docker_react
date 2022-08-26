@@ -1,5 +1,8 @@
 # as builder is used to tag this phase as the builder phase - used to build the application and install dependencies. 
-FROM node:16-alpine as builder
+# FROM node:16-alpine as builder
+
+# removing stage naming to see if EBS deployment stops erroing out
+FROM node:16-alpine
 WORKDIR '/app'
 COPY package.json .
 RUN npm install
@@ -13,4 +16,8 @@ FROM nginx
 EXPOSE 80
 
 # want to copy something from the builder phase. First argument is the thing we want to copy. Second is where we want to copy it to in the nginx container. This folder location was pulled from nginx's documentation.
-COPY --from=builder /app/build /usr/share/nginx/html
+# COPY --from=builder /app/build /usr/share/nginx/html
+
+# COPY from stage 0 since we're no longer using named stages.
+COPY --from=0 /app/build /usr/share/nginx/html
+
