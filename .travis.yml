@@ -1,5 +1,7 @@
 # always include this to tell Travis you need super user level permissions for the build 
 sudo: required
+language: generic
+
 # tell travis what services it needs to install
 services:
   - docker
@@ -9,20 +11,20 @@ services:
 before_install:
   - docker build -t shruthisiva95/docker-react -f Dockerfile.dev . 
 
-#series of commans to run for tests to be executed
+#series of commands to run for tests to be executed
 script:
   - docker run -e CI=true shruthisiva95/docker-react npm run test
 
 # actual deploy to production
 deploy: 
   provider: elasticbeanstalk
-  region: "us-east-1"
-  app: "docker-react"
-  env: "Dockerreact-env"
+  region: 'us-east-1'
+  app: 'docker-react'
+  env: 'Dockerreact-env'
   # once travis CI handles the CI, it needs somewhere to put the zip file into for elasticbeanstalk to then be able to retrieve it. It uses an S3 bucket for this. 
-  bucket_name: "elasticbeanstalk-us-east-1-296208148105"
+  bucket_name: 'elasticbeanstalk-us-east-1-296208148105'
   # all elasticbeanstalk resources are pushed into that same bucket. Intially there is no path since the application hasn't been deployed. it uses the same name as the app, though.
-  bucket_path: "docker-react"
+  bucket_path: 'docker-react'
   # when code is pushed to master, that's the time to deploy to beanstalk
   on:
     branch: main
