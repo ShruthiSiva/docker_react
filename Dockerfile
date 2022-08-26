@@ -1,7 +1,7 @@
 # as builder is used to tag this phase as the builder phase - used to build the application and install dependencies. 
 FROM node:16-alpine as builder
 WORKDIR '/app'
-COPY ./package.json .
+COPY package.json .
 RUN npm install
 COPY . .
 CMD npm run build
